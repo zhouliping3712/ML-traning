@@ -51,37 +51,30 @@ def main():
     #     'max_depth': np.arange(1, 300, 1),
     # }
 
-    xgb_model = xgboost.XGBClassifier(nthread=15)
+    # xgb_model = xgboost.XGBClassifier(n_estimators=200, learning_rate=0.15, max_depth=4, nthread=15)
+    xgb_model = xgboost.XGBClassifier(n_estimators=181, learning_rate=0.15, max_depth=6, nthread=15)
+    # xgb_model = xgboost.XGBClassifier(nthread=15)
 
-    # xgb_model.fit(Xtrain, ytrian)
-    # y_pred = xgb_model.predict(Xtest)
-    # r = metrics.accuracy_score(y_pred, ytest)
-    # print(r)
+    xgb_model.fit(Xtrain, ytrian)
+    y_pred = xgb_model.predict(Xtest)
+    r = metrics.accuracy_score(y_pred, ytest)
+    print(r)
 
-    cv_split = ShuffleSplit(n_splits=6, train_size=0.7, test_size=0.2)
-
-    param_grid = {
-        "max_depth": [4, 5, 6, 7],
-        "learning_rate": np.linspace(0.03, 0.3, 10),
-        "n_estimators": [100, 200]
-    }
-
-    grid = GridSearchCV(estimator=xgb_model, param_grid=param_grid, cv=cv_split, scoring='neg_mean_squared_error')
-
-    print(type(ytrian))
-
-    # grid.fit(Xtrain, ytrian)
+    # cv_split = ShuffleSplit(n_splits=6, train_size=0.7, test_size=0.2)
+    #
+    # param_grid = {
+    #     "max_depth": [4, 5, 6, 7],
+    #     "learning_rate": np.linspace(0.03, 0.3, 10),
+    #     "n_estimators": [100, 200]
+    # }
+    #
+    # grid = GridSearchCV(estimator=xgb_model, param_grid=param_grid, cv=cv_split, scoring='neg_mean_squared_error')
+    #
     # grid.fit(Xtrain, ytrian.values.ravel())
-
-    print(grid.best_params_)
-    print(grid.best_score_)
+    #
+    # print(grid.best_params_)
+    # print(grid.best_score_)
 
 
 if __name__ == '__main__':
     main()
-
-"""
-{'n_estimators': 200, 'learning_rate': 0.15000000000000002, 'max_depth': 4}
--0.09421720733427362
-
-"""
